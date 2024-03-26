@@ -21,6 +21,7 @@ const Page = (props: Props) => {
           isLooping
           shouldPlay
           source={{ uri: assets[0].uri }}
+          style={styles.video}
         />
       )}
       <View style={{ marginTop: 80, padding: 20 }}>
