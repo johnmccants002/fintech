@@ -27,15 +27,26 @@ export default function EmailSignUp() {
     }
 
     try {
-      await signUp.create({
+      const response = await signUp.create({
         firstName,
         lastName,
         emailAddress,
         password,
       });
+      console.log("🚀 ~ onSignUpPress ~ response:", response);
+      console.log(
+        "🚀 ~ onSignUpPress ~  firstName",
+        lastName,
+        emailAddress,
+        firstName,
+        lastName,
+        emailAddress,
+        password
+      );
 
       // send the email.
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      //   await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
       // change the UI to our pending section.
       setPendingVerification(true);
@@ -90,7 +101,6 @@ export default function EmailSignUp() {
             style={styles.input}
             value={password}
             placeholder="Password..."
-            placeholderTextColor="#000"
             secureTextEntry={true}
             onChangeText={(password) => setPassword(password)}
           />
