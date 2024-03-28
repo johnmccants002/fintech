@@ -85,6 +85,7 @@ const Page = (props: Props) => {
             placeholder="Country code"
             placeholderTextColor={Colors.gray}
             value={countryCode}
+            onChangeText={setCountryCode}
           />
           <TextInput
             style={[styles.input, { flex: 1 }]}
@@ -102,7 +103,7 @@ const Page = (props: Props) => {
             phoneNumber !== "" ? styles.enabled : styles.disabled,
             { marginBottom: 20 },
           ]}
-          onPress={() => onSignIn()}
+          onPress={() => onSignIn(SignInType.Phone)}
         >
           <Text style={defaultStyles.buttonText}>Continue</Text>
         </TouchableOpacity>
