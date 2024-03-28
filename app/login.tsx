@@ -14,16 +14,60 @@ import {
   Platform,
   Alert,
 } from "react-native";
+import { isClerkAPIResponseError, useSignIn } from "@clerk/clerk-expo";
 
 type Props = {};
+
+enum SignInType {
+  Phone,
+  Email,
+  Google,
+  Apple,
+}
 
 const Page = (props: Props) => {
   const [countryCode, setCountryCode] = useState("+49");
   const [phoneNumber, setPhoneNumber] = useState("");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
   const router = useRouter();
+  const { signIn } = useSignIn();
 
-  const onSignIn = () => {};
+  const onSignIn = async (type: SignInType) => {
+    if (type === SignInType.Phone) {
+      try {
+        const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+        const { supportedFirstFactors } = await signIn!.create({
+          identifier: fullPhoneNumber,
+        });
+
+        const firstPhoneFactor: any = supportedFirstFactors.find(
+          (factor: any) => {
+            return factor.strategy === "phone_code";
+          }
+        );
+
+        const { phoneNumberId } = firstPhoneFactor;
+
+        await signIn!.prepareFirstFactor({
+          strategy: "phone_code",
+          phoneNumberId,
+        });
+        router.push({
+          pathname: "/verify/[phone]",
+          params: { phone: fullPhoneNumber, signin: "true" },
+        });
+      } catch (error) {
+        console.error("Error signing in ", error);
+        if (isClerkAPIResponseError(error)) {
+          if (error.errors[0].code === "form_identifier_not-found") {
+            Alert.alert("Error", error.errors[0].message);
+          }
+        }
+      }
+    }
+  };
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
