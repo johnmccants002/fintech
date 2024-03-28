@@ -11,7 +11,8 @@ import {
 
 import React, { useState } from "react";
 import Colors from "@/constants/Colors";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
 
 type Props = {};
 
@@ -19,8 +20,24 @@ const Page = (props: Props) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("+49");
   const keyboardVerticalOffset = Platform.OS === "ios" ? 80 : 0;
+  const router = useRouter();
+  const { signUp } = useSignUp();
 
-  const onSignup = () => {};
+  const onSignup = async () => {
+    const fullPhoneNumber = `${countryCode}${phoneNumber}`;
+
+    try {
+      await signUp!.create({
+        phoneNumber: fullPhoneNumber,
+      });
+      router.push({
+        pathname: "/verify/[phone]",
+        params: { phone: fullPhoneNumber },
+      });
+    } catch (error) {
+      console.error("Error signing up", error);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
