@@ -10,6 +10,7 @@ web-build/
 ios/
 android/
 
+
 # Native
 *.orig.*
 *.jks
@@ -17,6 +18,7 @@ android/
 *.p12
 *.key
 *.mobileprovision
+
 
 # Metro
 .metro-health-check*
@@ -32,7 +34,7 @@ yarn-error.*
 
 # local env files
 .env*.local
-
+.env
 # typescript
 *.tsbuildinfo
 

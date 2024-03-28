@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { ClerkProvider } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 
-const CLERK_PUBLISHABLE_KEY = process.env.XPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 export {
   // Catch any errors thrown by the Layout component.
