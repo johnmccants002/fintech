@@ -38,7 +38,7 @@ const Page = () => {
       if (signin === "true") {
         verifySignIn();
       } else {
-        // verifyCode();
+        verifyCode();
       }
     }
   }, [code]);
